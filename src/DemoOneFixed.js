@@ -19,14 +19,12 @@ class DemoOneFixed extends Component {
         this.data[this.state.query] = []
         const tempData = this.data[this.state.query]
         const requestQuery = this.state.query
-        // console.log('out', requestQuery)
         axios.post('http://localhost:3001/firstList', { data: this.state.query })
             .then((successData) => {
                 console.log(requestQuery, successData.data)
                 successData.data.forEach((item)=> {
                     tempData.push(item)
                 })
-                // console.log('in', this.state.query)
                 this.setState({
                     ...this.state,
                     list: this.data[this.state.query]
