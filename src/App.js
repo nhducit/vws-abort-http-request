@@ -5,11 +5,13 @@ import DemoOne from './DemoOne'
 import DemoOneFixed from './DemoOneFixed'
 import SecondDemo from './SecondDemo'
 import SecondDemoFixed from './SecondDemoFixed'
+import Product from './Product'
 
 const DEMO_ONE = 'DEMO_ONE'
 const DEMO_ONE_FIXED = 'DEMO_ONE_FIXED'
 const SECOND_DEMO = 'SECOND_DEMO'
 const SECOND_DEMO_FIXED = 'SECOND_DEMO_FIXED'
+const PRODUCT = 'PRODUCT'
 
 class App extends Component {
     constructor(props) {
@@ -29,6 +31,8 @@ class App extends Component {
             demoComponent = <SecondDemo/>
         } else if (this.state.currentPage === SECOND_DEMO_FIXED) {
             demoComponent = <SecondDemoFixed/>
+        }else if (this.state.currentPage === PRODUCT) {
+            demoComponent = <Product/>
         }
         return demoComponent
     }
@@ -52,6 +56,9 @@ class App extends Component {
     showSecondDemoFixed = () => {
         this.changeDemoPage(SECOND_DEMO_FIXED)
     }
+    showProduct = () => {
+        this.changeDemoPage(PRODUCT)
+    }
 
     render() {
         return (
@@ -72,6 +79,9 @@ class App extends Component {
                         </button>
                         <button onClick={this.showSecondDemoFixed}>
                             Demo 2 Fixed
+                        </button>
+                        <button onClick={this.showProduct}>
+                            Product
                         </button>
                     </div>
                     {this.demoRenderer()}

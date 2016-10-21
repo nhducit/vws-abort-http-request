@@ -1,4 +1,7 @@
 /**
+ * Created by duc on 10/21/16.
+ */
+/**
  * Created by duc on 10/18/16.
  */
 import  React, { PropTypes, Component } from 'react'
@@ -9,13 +12,13 @@ class DemoOne extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            query: '',
             list: [],
         }
+        this.getProduct()
     }
 
-    getAutoComplete = ()=> {
-        axios.post('http://localhost:3001/firstList', { data: this.state.query })
+    getProduct = ()=> {
+        axios.get('http://localhost:3001/product')
             .then((successData) => {
                 this.setState({
                     ...this.state,
@@ -24,31 +27,9 @@ class DemoOne extends Component {
             })
     }
 
-    onQueryChange = (e)=> {
-        if (e.target.value.trim()) {
-            this.setState({
-                ...this.state,
-                query: e.target.value
-            }, ()=> {
-                this.getAutoComplete()
-            })
-        } else {
-            this.reset()
-        }
-    }
-
-    reset = () => {
-        this.setState({
-            query: '',
-            list: [],
-        })
-    }
-
     render() {
         return <div>
-            <div className="page-header">Demo One</div>
-            <input type="text" value={this.state.query} onChange={this.onQueryChange}/>
-            <button onClick={this.reset}>reset</button>
+            <div className="page-header">Product</div>
             <div className="item-list-container">
                 <ul className="item-list-ul">
                     {

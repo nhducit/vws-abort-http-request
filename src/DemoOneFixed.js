@@ -12,19 +12,29 @@ class DemoOneFixed extends Component {
             query: '',
             list: [],
         }
+        this.data = {}
     }
 
     getAutoComplete = ()=> {
-        axios.post('http://localhost:3001/demo', { data: this.state.query })
+        this.data[this.state.query] = []
+        const tempData = this.data[this.state.query]
+        const requestQuery = this.state.query
+        // console.log('out', requestQuery)
+        axios.post('http://localhost:3001/firstList', { data: this.state.query })
             .then((successData) => {
+                console.log(requestQuery, successData.data)
+                successData.data.forEach((item)=> {
+                    tempData.push(item)
+                })
+                // console.log('in', this.state.query)
                 this.setState({
                     ...this.state,
-                    list: successData.data
+                    list: this.data[this.state.query]
                 })
             })
     }
 
-    getAutoCompleteDebounced = _debounce(this.getAutoComplete, 300)
+    getAutoCompleteDebounced = _debounce(this.getAutoComplete, 500)
 
 
     onQueryChange = (e)=> {

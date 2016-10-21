@@ -17,7 +17,7 @@ class SecondDemo extends Component {
     }
 
     getAutoComplete = (query)=> {
-        return axios.post('http://localhost:3001/demo', { data: query })
+        return axios.post('http://localhost:3001/firstList', { data: query })
     }
 
     onQueryChange = (e)=> {
