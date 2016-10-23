@@ -25,9 +25,10 @@ app.get('/product', (req, res)=> {
 
 
 function fakeRequest(req, res) {
-    var result = []
-    var requestData = req.body.data
-    var promise = new Promise((resolve)=> {
+    let result = []
+    const requestData = req.body.data
+    let timeout = null
+    var promise = new Promise((resolve, reject)=> {
         let timeout = 200
         if (requestData === 'abc') {
             timeout = 500
@@ -38,16 +39,29 @@ function fakeRequest(req, res) {
         } else if (R.contains('BOOM', requestData)) {
             timeout = 10000
         }
-        setTimeout(()=> {
+        timeout = setTimeout(()=> {
             resolve()
         }, timeout)
+        //
+        req.on('close', ()=> {
+            // request closed unexpectedly
+            clearTimeout(timeout)
+            reject({ reason: 'requestClosed' })
+        })
     })
-    promise.then(()=> {
-        result = R.times((index)=> {
-            return `${requestData}-${index}`
-        }, 10)
-        res.send(result)
-    })
+    promise
+        .then(()=> {
+            result = R.times((index)=> {
+                return `${requestData}-${index}`
+            }, 10)
+            res.send(result)
+        })
+        .catch((error)=> {
+            if (error.reason) {
+                console.log('request closed unexpectedly')
+            }
+        })
+
 }
 app.listen(3001, function () {
     console.log('Example app listening on port 3001!')
