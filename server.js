@@ -57,7 +57,7 @@ function fakeRequest(req, res) {
             res.send(result)
         })
         .catch((error)=> {
-            if (error.reason) {
+            if (error.reason === 'requestClosed') {
                 console.log('request closed unexpectedly')
             }
         })
